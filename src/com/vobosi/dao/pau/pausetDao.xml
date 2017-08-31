@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vobosi.dao.pau.pausetDao" >
+  <resultMap id="BaseResultMap" type="com.vobosi.pojo.pau.pauset" >
+    <result column="stime" property="stime" jdbcType="INTEGER" />
+    <result column="temset" property="temset" jdbcType="INTEGER" />
+    <result column="humset" property="humset" jdbcType="INTEGER" />
+    <result column="preset" property="preset" jdbcType="INTEGER" />
+    <result column="controlset" property="controlset" jdbcType="VARCHAR" />
+    <result column="who" property="who" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      stime, temset, humset, preset, controlset, who
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.vobosi.pojo.pau.pausetQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pauset
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.vobosi.pojo.pau.pausetQuery" >
+    delete from pauset
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.vobosi.pojo.pau.pauset" >
+    insert into pauset (stime, temset, humset, 
+      preset, controlset, who
+      )
+    values (#{stime,jdbcType=INTEGER}, #{temset,jdbcType=INTEGER}, #{humset,jdbcType=INTEGER}, 
+      #{preset,jdbcType=INTEGER}, #{controlset,jdbcType=VARCHAR}, #{who,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.vobosi.pojo.pau.pauset" >
+    insert into pauset
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="stime != null" >
+        stime,
+      </if>
+      <if test="temset != null" >
+        temset,
+      </if>
+      <if test="humset != null" >
+        humset,
+      </if>
+      <if test="preset != null" >
+        preset,
+      </if>
+      <if test="controlset != null" >
+        controlset,
+      </if>
+      <if test="who != null" >
+        who,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="stime != null" >
+        #{stime,jdbcType=INTEGER},
+      </if>
+      <if test="temset != null" >
+        #{temset,jdbcType=INTEGER},
+      </if>
+      <if test="humset != null" >
+        #{humset,jdbcType=INTEGER},
+      </if>
+      <if test="preset != null" >
+        #{preset,jdbcType=INTEGER},
+      </if>
+      <if test="controlset != null" >
+        #{controlset,jdbcType=VARCHAR},
+      </if>
+      <if test="who != null" >
+        #{who,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.vobosi.pojo.pau.pausetQuery" resultType="java.lang.Integer" >
+    select count(*) from pauset
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update pauset
+    <set >
+      <if test="record.stime != null" >
+        stime = #{record.stime,jdbcType=INTEGER},
+      </if>
+      <if test="record.temset != null" >
+        temset = #{record.temset,jdbcType=INTEGER},
+      </if>
+      <if test="record.humset != null" >
+        humset = #{record.humset,jdbcType=INTEGER},
+      </if>
+      <if test="record.preset != null" >
+        preset = #{record.preset,jdbcType=INTEGER},
+      </if>
+      <if test="record.controlset != null" >
+        controlset = #{record.controlset,jdbcType=VARCHAR},
+      </if>
+      <if test="record.who != null" >
+        who = #{record.who,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update pauset
+    set stime = #{record.stime,jdbcType=INTEGER},
+      temset = #{record.temset,jdbcType=INTEGER},
+      humset = #{record.humset,jdbcType=INTEGER},
+      preset = #{record.preset,jdbcType=INTEGER},
+      controlset = #{record.controlset,jdbcType=VARCHAR},
+      who = #{record.who,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

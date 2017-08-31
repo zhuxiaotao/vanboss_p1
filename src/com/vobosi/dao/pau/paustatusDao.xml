@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vobosi.dao.pau.paustatusDao" >
+  <resultMap id="BaseResultMap" type="com.vobosi.pojo.pau.paustatus" >
+    <result column="stime" property="stime" jdbcType="INTEGER" />
+    <result column="temns1" property="temns1" jdbcType="INTEGER" />
+    <result column="temns2" property="temns2" jdbcType="INTEGER" />
+    <result column="temns3" property="temns3" jdbcType="INTEGER" />
+    <result column="humns1" property="humns1" jdbcType="INTEGER" />
+    <result column="humns2" property="humns2" jdbcType="INTEGER" />
+    <result column="humns3" property="humns3" jdbcType="INTEGER" />
+    <result column="temos1" property="temos1" jdbcType="INTEGER" />
+    <result column="temos2" property="temos2" jdbcType="INTEGER" />
+    <result column="temos3" property="temos3" jdbcType="INTEGER" />
+    <result column="humos1" property="humos1" jdbcType="INTEGER" />
+    <result column="humos2" property="humos2" jdbcType="INTEGER" />
+    <result column="humos3" property="humos3" jdbcType="INTEGER" />
+    <result column="preos1" property="preos1" jdbcType="INTEGER" />
+    <result column="preos2" property="preos2" jdbcType="INTEGER" />
+    <result column="preos3" property="preos3" jdbcType="INTEGER" />
+    <result column="status1" property="status1" jdbcType="VARCHAR" />
+    <result column="status2" property="status2" jdbcType="VARCHAR" />
+    <result column="status3" property="status3" jdbcType="VARCHAR" />
+    <result column="fre1" property="fre1" jdbcType="INTEGER" />
+    <result column="fre2" property="fre2" jdbcType="INTEGER" />
+    <result column="fre3" property="fre3" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      stime, temns1, temns2, temns3, humns1, humns2, humns3, temos1, temos2, temos3, humos1, 
+      humos2, humos3, preos1, preos2, preos3, status1, status2, status3, fre1, fre2, fre3
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.vobosi.pojo.pau.paustatusQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from paustatus
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.vobosi.pojo.pau.paustatusQuery" >
+    delete from paustatus
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.vobosi.pojo.pau.paustatus" >
+    insert into paustatus (stime, temns1, temns2, 
+      temns3, humns1, humns2, 
+      humns3, temos1, temos2, 
+      temos3, humos1, humos2, 
+      humos3, preos1, preos2, 
+      preos3, status1, status2, 
+      status3, fre1, fre2, 
+      fre3)
+    values (#{stime,jdbcType=INTEGER}, #{temns1,jdbcType=INTEGER}, #{temns2,jdbcType=INTEGER}, 
+      #{temns3,jdbcType=INTEGER}, #{humns1,jdbcType=INTEGER}, #{humns2,jdbcType=INTEGER}, 
+      #{humns3,jdbcType=INTEGER}, #{temos1,jdbcType=INTEGER}, #{temos2,jdbcType=INTEGER}, 
+      #{temos3,jdbcType=INTEGER}, #{humos1,jdbcType=INTEGER}, #{humos2,jdbcType=INTEGER}, 
+      #{humos3,jdbcType=INTEGER}, #{preos1,jdbcType=INTEGER}, #{preos2,jdbcType=INTEGER}, 
+      #{preos3,jdbcType=INTEGER}, #{status1,jdbcType=VARCHAR}, #{status2,jdbcType=VARCHAR}, 
+      #{status3,jdbcType=VARCHAR}, #{fre1,jdbcType=INTEGER}, #{fre2,jdbcType=INTEGER}, 
+      #{fre3,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.vobosi.pojo.pau.paustatus" >
+    insert into paustatus
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="stime != null" >
+        stime,
+      </if>
+      <if test="temns1 != null" >
+        temns1,
+      </if>
+      <if test="temns2 != null" >
+        temns2,
+      </if>
+      <if test="temns3 != null" >
+        temns3,
+      </if>
+      <if test="humns1 != null" >
+        humns1,
+      </if>
+      <if test="humns2 != null" >
+        humns2,
+      </if>
+      <if test="humns3 != null" >
+        humns3,
+      </if>
+      <if test="temos1 != null" >
+        temos1,
+      </if>
+      <if test="temos2 != null" >
+        temos2,
+      </if>
+      <if test="temos3 != null" >
+        temos3,
+      </if>
+      <if test="humos1 != null" >
+        humos1,
+      </if>
+      <if test="humos2 != null" >
+        humos2,
+      </if>
+      <if test="humos3 != null" >
+        humos3,
+      </if>
+      <if test="preos1 != null" >
+        preos1,
+      </if>
+      <if test="preos2 != null" >
+        preos2,
+      </if>
+      <if test="preos3 != null" >
+        preos3,
+      </if>
+      <if test="status1 != null" >
+        status1,
+      </if>
+      <if test="status2 != null" >
+        status2,
+      </if>
+      <if test="status3 != null" >
+        status3,
+      </if>
+      <if test="fre1 != null" >
+        fre1,
+      </if>
+      <if test="fre2 != null" >
+        fre2,
+      </if>
+      <if test="fre3 != null" >
+        fre3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="stime != null" >
+        #{stime,jdbcType=INTEGER},
+      </if>
+      <if test="temns1 != null" >
+        #{temns1,jdbcType=INTEGER},
+      </if>
+      <if test="temns2 != null" >
+        #{temns2,jdbcType=INTEGER},
+      </if>
+      <if test="temns3 != null" >
+        #{temns3,jdbcType=INTEGER},
+      </if>
+      <if test="humns1 != null" >
+        #{humns1,jdbcType=INTEGER},
+      </if>
+      <if test="humns2 != null" >
+        #{humns2,jdbcType=INTEGER},
+      </if>
+      <if test="humns3 != null" >
+        #{humns3,jdbcType=INTEGER},
+      </if>
+      <if test="temos1 != null" >
+        #{temos1,jdbcType=INTEGER},
+      </if>
+      <if test="temos2 != null" >
+        #{temos2,jdbcType=INTEGER},
+      </if>
+      <if test="temos3 != null" >
+        #{temos3,jdbcType=INTEGER},
+      </if>
+      <if test="humos1 != null" >
+        #{humos1,jdbcType=INTEGER},
+      </if>
+      <if test="humos2 != null" >
+        #{humos2,jdbcType=INTEGER},
+      </if>
+      <if test="humos3 != null" >
+        #{humos3,jdbcType=INTEGER},
+      </if>
+      <if test="preos1 != null" >
+        #{preos1,jdbcType=INTEGER},
+      </if>
+      <if test="preos2 != null" >
+        #{preos2,jdbcType=INTEGER},
+      </if>
+      <if test="preos3 != null" >
+        #{preos3,jdbcType=INTEGER},
+      </if>
+      <if test="status1 != null" >
+        #{status1,jdbcType=VARCHAR},
+      </if>
+      <if test="status2 != null" >
+        #{status2,jdbcType=VARCHAR},
+      </if>
+      <if test="status3 != null" >
+        #{status3,jdbcType=VARCHAR},
+      </if>
+      <if test="fre1 != null" >
+        #{fre1,jdbcType=INTEGER},
+      </if>
+      <if test="fre2 != null" >
+        #{fre2,jdbcType=INTEGER},
+      </if>
+      <if test="fre3 != null" >
+        #{fre3,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.vobosi.pojo.pau.paustatusQuery" resultType="java.lang.Integer" >
+    select count(*) from paustatus
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update paustatus
+    <set >
+      <if test="record.stime != null" >
+        stime = #{record.stime,jdbcType=INTEGER},
+      </if>
+      <if test="record.temns1 != null" >
+        temns1 = #{record.temns1,jdbcType=INTEGER},
+      </if>
+      <if test="record.temns2 != null" >
+        temns2 = #{record.temns2,jdbcType=INTEGER},
+      </if>
+      <if test="record.temns3 != null" >
+        temns3 = #{record.temns3,jdbcType=INTEGER},
+      </if>
+      <if test="record.humns1 != null" >
+        humns1 = #{record.humns1,jdbcType=INTEGER},
+      </if>
+      <if test="record.humns2 != null" >
+        humns2 = #{record.humns2,jdbcType=INTEGER},
+      </if>
+      <if test="record.humns3 != null" >
+        humns3 = #{record.humns3,jdbcType=INTEGER},
+      </if>
+      <if test="record.temos1 != null" >
+        temos1 = #{record.temos1,jdbcType=INTEGER},
+      </if>
+      <if test="record.temos2 != null" >
+        temos2 = #{record.temos2,jdbcType=INTEGER},
+      </if>
+      <if test="record.temos3 != null" >
+        temos3 = #{record.temos3,jdbcType=INTEGER},
+      </if>
+      <if test="record.humos1 != null" >
+        humos1 = #{record.humos1,jdbcType=INTEGER},
+      </if>
+      <if test="record.humos2 != null" >
+        humos2 = #{record.humos2,jdbcType=INTEGER},
+      </if>
+      <if test="record.humos3 != null" >
+        humos3 = #{record.humos3,jdbcType=INTEGER},
+      </if>
+      <if test="record.preos1 != null" >
+        preos1 = #{record.preos1,jdbcType=INTEGER},
+      </if>
+      <if test="record.preos2 != null" >
+        preos2 = #{record.preos2,jdbcType=INTEGER},
+      </if>
+      <if test="record.preos3 != null" >
+        preos3 = #{record.preos3,jdbcType=INTEGER},
+      </if>
+      <if test="record.status1 != null" >
+        status1 = #{record.status1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status2 != null" >
+        status2 = #{record.status2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status3 != null" >
+        status3 = #{record.status3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fre1 != null" >
+        fre1 = #{record.fre1,jdbcType=INTEGER},
+      </if>
+      <if test="record.fre2 != null" >
+        fre2 = #{record.fre2,jdbcType=INTEGER},
+      </if>
+      <if test="record.fre3 != null" >
+        fre3 = #{record.fre3,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update paustatus
+    set stime = #{record.stime,jdbcType=INTEGER},
+      temns1 = #{record.temns1,jdbcType=INTEGER},
+      temns2 = #{record.temns2,jdbcType=INTEGER},
+      temns3 = #{record.temns3,jdbcType=INTEGER},
+      humns1 = #{record.humns1,jdbcType=INTEGER},
+      humns2 = #{record.humns2,jdbcType=INTEGER},
+      humns3 = #{record.humns3,jdbcType=INTEGER},
+      temos1 = #{record.temos1,jdbcType=INTEGER},
+      temos2 = #{record.temos2,jdbcType=INTEGER},
+      temos3 = #{record.temos3,jdbcType=INTEGER},
+      humos1 = #{record.humos1,jdbcType=INTEGER},
+      humos2 = #{record.humos2,jdbcType=INTEGER},
+      humos3 = #{record.humos3,jdbcType=INTEGER},
+      preos1 = #{record.preos1,jdbcType=INTEGER},
+      preos2 = #{record.preos2,jdbcType=INTEGER},
+      preos3 = #{record.preos3,jdbcType=INTEGER},
+      status1 = #{record.status1,jdbcType=VARCHAR},
+      status2 = #{record.status2,jdbcType=VARCHAR},
+      status3 = #{record.status3,jdbcType=VARCHAR},
+      fre1 = #{record.fre1,jdbcType=INTEGER},
+      fre2 = #{record.fre2,jdbcType=INTEGER},
+      fre3 = #{record.fre3,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

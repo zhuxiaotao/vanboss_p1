@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<!-- 给实体类（pojo）别名 -->
+	<typeAliases>
+		<!-- 此种方式是给一个实体类起别名 -->
+		<!-- 给某个包下或再下级子包的所有实体类（pojo）起别名(sql映射文件就不用写全包名+类名了)：别名为实体类名首字母大写或全小写如User，user -->
+		<package name="com.vobosi.pojo"/>
+	</typeAliases>
+	
+</configuration>

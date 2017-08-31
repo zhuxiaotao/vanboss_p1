@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vobosi.dao.pau.paualarmDao" >
+  <resultMap id="BaseResultMap" type="com.vobosi.pojo.pau.paualarm" >
+    <result column="stime" property="stime" jdbcType="INTEGER" />
+    <result column="screen1" property="screen1" jdbcType="VARCHAR" />
+    <result column="screen2" property="screen2" jdbcType="VARCHAR" />
+    <result column="themostat" property="themostat" jdbcType="VARCHAR" />
+    <result column="motor" property="motor" jdbcType="VARCHAR" />
+    <result column="other" property="other" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      stime, screen1, screen2, themostat, motor, other
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.vobosi.pojo.pau.paualarmQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from paualarm
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.vobosi.pojo.pau.paualarmQuery" >
+    delete from paualarm
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.vobosi.pojo.pau.paualarm" >
+    insert into paualarm (stime, screen1, screen2, 
+      themostat, motor, other
+      )
+    values (#{stime,jdbcType=INTEGER}, #{screen1,jdbcType=VARCHAR}, #{screen2,jdbcType=VARCHAR}, 
+      #{themostat,jdbcType=VARCHAR}, #{motor,jdbcType=VARCHAR}, #{other,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.vobosi.pojo.pau.paualarm" >
+    insert into paualarm
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="stime != null" >
+        stime,
+      </if>
+      <if test="screen1 != null" >
+        screen1,
+      </if>
+      <if test="screen2 != null" >
+        screen2,
+      </if>
+      <if test="themostat != null" >
+        themostat,
+      </if>
+      <if test="motor != null" >
+        motor,
+      </if>
+      <if test="other != null" >
+        other,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="stime != null" >
+        #{stime,jdbcType=INTEGER},
+      </if>
+      <if test="screen1 != null" >
+        #{screen1,jdbcType=VARCHAR},
+      </if>
+      <if test="screen2 != null" >
+        #{screen2,jdbcType=VARCHAR},
+      </if>
+      <if test="themostat != null" >
+        #{themostat,jdbcType=VARCHAR},
+      </if>
+      <if test="motor != null" >
+        #{motor,jdbcType=VARCHAR},
+      </if>
+      <if test="other != null" >
+        #{other,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.vobosi.pojo.pau.paualarmQuery" resultType="java.lang.Integer" >
+    select count(*) from paualarm
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update paualarm
+    <set >
+      <if test="record.stime != null" >
+        stime = #{record.stime,jdbcType=INTEGER},
+      </if>
+      <if test="record.screen1 != null" >
+        screen1 = #{record.screen1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.screen2 != null" >
+        screen2 = #{record.screen2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.themostat != null" >
+        themostat = #{record.themostat,jdbcType=VARCHAR},
+      </if>
+      <if test="record.motor != null" >
+        motor = #{record.motor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.other != null" >
+        other = #{record.other,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update paualarm
+    set stime = #{record.stime,jdbcType=INTEGER},
+      screen1 = #{record.screen1,jdbcType=VARCHAR},
+      screen2 = #{record.screen2,jdbcType=VARCHAR},
+      themostat = #{record.themostat,jdbcType=VARCHAR},
+      motor = #{record.motor,jdbcType=VARCHAR},
+      other = #{record.other,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>
