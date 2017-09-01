@@ -1,10 +1,13 @@
 package com.vobosi.controller;
 import java.util.UUID;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang3.text.StrBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,16 +16,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
+
 import com.vobosi.Interface.UserService;
 import com.vobosi.Interface.modbusDriverService;
 import com.vobosi.Interface.testservice;
-import com.vobosi.dao.pau.paustatusDao;
+import com.vobosi.pojo.pau.pauset;
 import com.vobosi.pojo.pau.paustatus;
 import com.vobosi.pojo.user.user;
 import com.vobosi.service.DataEngineServiceImpl;
 import com.vobosi.utils.QRCodeUtil;
 import com.vobosi.utils.ServerHandler;
-import com.vobosi.utils.modbus_thread;
+
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -282,7 +286,79 @@ public class testcontroller {
 	/*启动modbus数据交互线程*/
 	@RequestMapping("/modbusRunServer.do")
 	public void modbusRunServer(){
-		modbusDriverService.modbusDriver("192.168.200.142", 2);
+		//获取context域
+		WebApplicationContext webApplicationContext = ContextLoader.getCurrentWebApplicationContext();
+		ServletContext context = webApplicationContext.getServletContext();
+		//判断一个modbus线程是否已启动
+		if(null==context.getAttribute("192.168.200.142")){
+			modbusDriverService.modbusDriver("192.168.200.142", 2);
+			//判断标志是context中的这个变量
+			context.setAttribute("192.168.200.142", "fire");
+		}
+	}
+	
+	/*modbus写入操作*/
+	@RequestMapping("/modbusSetService.do")
+	public void modbusSetService(@RequestBody pauset ps){
+		try {
+			//获取context域
+			WebApplicationContext webApplicationContext = ContextLoader.getCurrentWebApplicationContext();
+			ServletContext context = webApplicationContext.getServletContext();
+			//调试打印
+			if(null!=ps){
+				System.out.println("接收到了一条设定数据: " + ps.toString());
+			}
+			//初始化设定数据容器
+			StrBuilder sb = new StrBuilder();
+			sb.append("");
+			try {
+				//获取到设定的数值
+				Integer temset = ps.getTemset();
+				Integer humset = ps.getHumset();
+				Integer preset = ps.getPreset();
+				String controlset = ps.getControlset();
+				//将设定值数据拼接成格式化的字符串
+				sb.append(temset.toString() + "&");
+				sb.append(humset.toString() + "&");
+				sb.append(preset.toString() + "&");
+				sb.append(controlset);
+			} catch (Exception e) {
+				System.out.println("设定值转换错误");
+				return;
+			}
+			//转换成功进入写入操作
+			String stringSet = sb.toString();
+			if (null != stringSet && !"".equals(stringSet)) {
+				context.setAttribute("modbusSetData_XF1", stringSet);
+			}
+			//循环判断是否写入成功(可能会有线程安全问题!)
+			while (true) {
+				try {
+					//循环获取设定状态返回值
+					Object attribute = context.getAttribute("modbusSetDataBack_XF1");
+					//有设定值转台返回值
+					if (null != attribute) {
+						String sfb = (String) attribute;
+						if (null != sfb && !"".equals(sfb)) {
+							//设定返回值与设定值一致就结束方法
+							if (sfb.equals(stringSet)) {
+								context.removeAttribute("modbusSetDataBack_XF1");
+								System.out.println("写入数据成功: "+stringSet);
+								return;
+							} else {
+								//否则就继续写入context域再次尝试写入设备
+								context.setAttribute("modbusSetData_XF1", stringSet);
+							}
+						}
+					}
+				} catch (Exception e) {
+					System.out.println("检查设定写入操作异常");
+					return;
+				}
+			} 
+		} catch (Exception e) {
+			System.out.println("设定写入操作异常");
+		}
 	}
 
 }

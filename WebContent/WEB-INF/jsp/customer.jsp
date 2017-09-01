@@ -245,7 +245,13 @@ video {
 					</div>
 					<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
 						<a class="btn btn-app" style="margin-top: 12px"
-							onclick="ModbusTcpRun()"> <i class="fa fa-pause"></i> ModbusTcp
+							onclick="ModbusTcpRun()"> <i class="fa fa-pause"></i>
+							ModbusTcp
+						</a>
+					</div>
+					<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+						<a class="btn btn-app" style="margin-top: 12px"
+							onclick="ModbusTcpSet()"> <i class="fa fa-pause"></i> 控制数据提交
 						</a>
 					</div>
 
@@ -929,15 +935,36 @@ video {
 					/* 启动ModbusTcp功能 */
 					function ModbusTcpRun() {
 						var data = '{}';
-						$.ajax({
-							url : "http://192.168.27.1:8080/modbusRunServer.do",
-							type : "post",
-							data : data,
-							contentType : "application/json;charset=UTF-8",
-							dataType : "json",
-							success : function() {
-							}
-						});
+						$
+								.ajax({
+									url : "http://192.168.27.1:8080/modbusRunServer.do",
+									type : "post",
+									data : data,
+									contentType : "application/json;charset=UTF-8",
+									dataType : "json",
+									success : function() {
+									}
+								});
+					}
+					/*ModbusTcpSet该方法为一个模板测试*/
+					function ModbusTcpSet() {
+
+						var data = '{"stime":"' + GetRandomNum(0, 100)
+								+ '","temset":"' + GetRandomNum(18, 26)
+								+ '","humset":"' + GetRandomNum(10, 30)
+								+ '","preset":"' + GetRandomNum(150, 300)
+								+ '","controlset":"111","who":"1"}';
+						$
+								.ajax({
+									url : "http://192.168.27.1:8080/modbusSetService.do",
+									type : "post",
+									data : data,
+									contentType : "application/json;charset=UTF-8",
+									dataType : "json",
+									success : function() {
+
+									}
+								});
 					}
 					/* 启动netty功能 */
 					function nettyrun() {
@@ -1132,6 +1159,16 @@ video {
 					player.on('pause', function() {
 						console.log('pause');
 					});
+				</script>
+				<!-- 随机数方法 -->
+				<script>
+					function GetRandomNum(Min, Max) {
+						var Range = Max - Min;
+						var Rand = Math.random();
+						return (Min + Math.round(Rand * Range));
+					}
+					var num = GetRandomNum(1, 10);
+					alert(num);
 				</script>
 </body>
 </html>

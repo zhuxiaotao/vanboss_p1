@@ -91,6 +91,18 @@ public class modbus_thread extends Thread {
 				}
 
 				// modbus写入操作
+				/*从context域中查找是否有要写入modbus设备的数据
+				 数据格式为: 温度设定and湿度设定and压力设定and开关机设定
+				 */
+				String modbusSet=(String)servletContext.getAttribute("modbusSetData_XF1");
+				//调用modbus方法写入设备控制值
+				if(null!=modbusSet && !"".equals(modbusSet)){
+					Master.writeModbus_FC16(10, modbusSet);
+					//写入成功就删除Context域值
+					servletContext.removeAttribute("modbusSetData_XF1");
+					//通过context域变量反馈给视图层，让视图层判断是否写入成功
+					servletContext.setAttribute("modbusSetDataBack_XF1", modbusSet);
+				}
 				/* make假数据操作最多8个数据用&分割拼接到一起 */
 				/*
 				 * for (int i = 0; i < 8; i++) { nextInt = random.nextInt(100);

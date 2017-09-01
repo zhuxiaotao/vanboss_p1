@@ -193,7 +193,7 @@ public class modbusMaster implements iConnectionStateChangeEvent, Serializable {
 	 * @param begin 读取的开始地址必须是1以后开始
 	 * @param writeString 写入值的传入字符串每个数据以“&”分割
 	 */
-	//写入数据最大长度10个，要写入的数据中间以+分割
+	//写入数据最大长度8个，要写入的数据中间以&分割
 	public void writeModbus_FC16(int begin,String writeString) {
 		//解析需要写入的字符串
 		String[] split = writeString.split("&");
